@@ -6,5 +6,6 @@ const categoryMiddleware = require('../middlewares/category.middleware');
 const router = express.Router();
 
 router.post('/', authMiddleware, categoryMiddleware, categoryController.createCategory);
+router.get('/', authMiddleware, categoryController.getCategories);
 
 module.exports = router;
