@@ -17,12 +17,27 @@ const registerUser = async ({ displayName, email, password, image }) => {
 
 const getUsers = async () => {
   const usersList = await User.findAll({
-    attributes: ['id', ['display_name', 'displayName'], 'email', 'image'],
+    attributes: { exclude: ['password'] },
   });
   return usersList;
+};
+
+const getUserById = async (id) => {
+  const userFound = await User.findByPk(id, {
+    attributes: { exclude: ['password'] },
+  });
+
+  if (!userFound) {
+    const error = new Error('User does not exist');
+    error.status = 404;
+    throw error;
+  }
+
+  return userFound;
 };
 
 module.exports = {
   registerUser,
   getUsers,
+  getUserById,
 };
