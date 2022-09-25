@@ -7,6 +7,10 @@ const CategorySchema = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     name: DataTypes.STRING
+  }, {
+    tableName: 'categories',
+    underscored: true,
+    timestamps: false,
   });
   return CategoryTable;
 };

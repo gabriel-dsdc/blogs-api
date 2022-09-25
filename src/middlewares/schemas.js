@@ -29,8 +29,16 @@ const tokenSchema = Joi.string().required().messages({
     'string.empty': 'Token not found',
   });
 
+const categorySchema = Joi.object({
+  name: Joi.string().required().messages({
+    'any.required': '"name" is required',
+    'string.empty': '"name" is required',
+  }),
+});
+
 module.exports = {
   loginSchema,
   userSchema,
   tokenSchema,
+  categorySchema,
 };
