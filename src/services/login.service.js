@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const generateToken = require('../utils/JWT');
+const { generateToken } = require('../utils/JWT');
 
 const login = async ({ email, password }) => {
   const hasUser = await User.findOne({
@@ -15,7 +15,7 @@ const login = async ({ email, password }) => {
   const token = generateToken({
     id: hasUser.dataValues.id,
     email: hasUser.dataValues.email,
-    displayName: hasUser.dataValues,
+    displayName: hasUser.dataValues.display_name,
   });
 
   return token;

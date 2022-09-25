@@ -8,4 +8,9 @@ const generateToken = (payload) => (
     algorithm: 'HS256',
   }));
 
-module.exports = generateToken;
+const verifyToken = async (token) => jwt.verify(token, TOKEN_SECRET);
+
+module.exports = {
+  generateToken,
+  verifyToken,
+};

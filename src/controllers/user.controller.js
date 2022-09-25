@@ -7,6 +7,13 @@ const registerUser = async (req, res) => {
   res.status(201).json({ token });
 };
 
+const getUsers = async (_req, res) => {
+  const usersList = await userService.getUsers();
+
+  res.status(200).json(usersList);
+};
+
 module.exports = {
   registerUser,
+  getUsers,
 };

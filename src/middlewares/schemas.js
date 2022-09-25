@@ -24,7 +24,13 @@ const userSchema = Joi.object({
   image: Joi.string(),
 });
 
+const tokenSchema = Joi.string().required().messages({
+    'any.required': 'Token not found',
+    'string.empty': 'Token not found',
+  });
+
 module.exports = {
   loginSchema,
   userSchema,
+  tokenSchema,
 };
