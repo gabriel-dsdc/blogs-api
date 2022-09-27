@@ -1,4 +1,4 @@
-const { BlogPost, PostCategory, sequelize } = require('../models');
+const { BlogPost, Category, PostCategory, User, sequelize } = require('../models');
 const { verifyToken } = require('../utils/JWT');
 
 const createPost = async ({ token, title, content, categoryIds }) => {
@@ -15,6 +15,16 @@ const createPost = async ({ token, title, content, categoryIds }) => {
   return result;
 };
 
+const getPosts = async () => {
+  const postsList = await BlogPost.findAll({
+    include: [
+      { as: 'user', model: User, attributes: { exclude: ['password'] } },
+      { as: 'categories', model: Category, through: { attributes: [] } }],
+  });
+  return postsList;
+};
+
 module.exports = {
   createPost,
+  getPosts,
 };
