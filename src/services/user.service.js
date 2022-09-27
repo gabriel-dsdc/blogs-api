@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { generateToken } = require('../utils/JWT');
+const { generateToken, verifyToken } = require('../utils/JWT');
 
 const registerUser = async ({ displayName, email, password, image }) => {
   const hasEmail = await User.findOne({ attributes: ['email'], where: { email } });
@@ -36,8 +36,16 @@ const getUserById = async (id) => {
   return userFound;
 };
 
+const deleteUser = async ({ token }) => {
+  const { id } = await verifyToken(token);
+  const isUserDeleted = await User.destroy({ where: { id } });
+
+  return isUserDeleted;
+};
+
 module.exports = {
   registerUser,
   getUsers,
   getUserById,
+  deleteUser,
 };

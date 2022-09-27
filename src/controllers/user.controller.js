@@ -20,8 +20,16 @@ const getUserById = async (req, res) => {
   res.status(200).json(userFound);
 };
 
+const deleteUser = async (req, res) => {
+  const token = req.header('Authorization');
+  await userService.deleteUser({ token });
+
+  res.status(204).end();
+};
+
 module.exports = {
   registerUser,
   getUsers,
   getUserById,
+  deleteUser,
 };
