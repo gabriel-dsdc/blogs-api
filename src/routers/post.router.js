@@ -9,5 +9,6 @@ router.post('/', authMiddleware, postMiddlewares.postMiddleware, postController.
 router.get('/', authMiddleware, postController.getPosts);
 router.get('/:id', authMiddleware, postController.getPostById);
 router.put('/:id', authMiddleware, postMiddlewares.editPostMiddleware, postController.editPost);
+router.delete('/:id', authMiddleware, postController.deletePost);
 
 module.exports = router;

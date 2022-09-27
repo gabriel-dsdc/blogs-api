@@ -43,9 +43,16 @@ const editPost = async ({ token, id, title, content }) => {
   }
 };
 
+const deletePost = async ({ token, id }) => {
+  const { id: userId } = await verifyToken(token);
+  const isDeleted = await BlogPost.destroy({ where: { id, userId } });
+  return isDeleted;
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   editPost,
+  deletePost,
 };
