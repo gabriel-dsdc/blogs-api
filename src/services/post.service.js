@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, Category, PostCategory, User, sequelize } = require('../models');
 const { verifyToken } = require('../utils/JWT');
 
@@ -49,10 +50,24 @@ const deletePost = async ({ token, id }) => {
   return isDeleted;
 };
 
+const searchPost = async ({ query }) => {
+  const postsFoundList = await BlogPost.findAll({
+    where: { 
+    [Op.or]: [
+      { title: { [Op.substring]: query } },
+      { content: { [Op.substring]: query } },
+    ],
+   },
+   ...blogPostIncludesObj,
+  });
+  return postsFoundList;
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   editPost,
   deletePost,
+  searchPost,
 };
