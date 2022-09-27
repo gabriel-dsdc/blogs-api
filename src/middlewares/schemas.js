@@ -53,10 +53,22 @@ const postSchema = Joi.object({
   }),
 });
 
+const editPostSchema = Joi.object({
+  title: Joi.string().required().messages({
+    'any.required': REQUIRED_FIELD_MSG,
+    'string.empty': REQUIRED_FIELD_MSG,
+  }),
+  content: Joi.string().required().messages({
+    'any.required': REQUIRED_FIELD_MSG,
+    'string.empty': REQUIRED_FIELD_MSG,
+  }),
+});
+
 module.exports = {
   loginSchema,
   userSchema,
   tokenSchema,
   categorySchema,
   postSchema,
+  editPostSchema,
 };

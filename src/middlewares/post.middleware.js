@@ -18,4 +18,13 @@ const postMiddleware = async (req, res, next) => {
   return next();
 };
 
-module.exports = postMiddleware;
+const editPostMiddleware = async (req, res, next) => {
+  const validation = schemas.editPostSchema.validate(req.body);
+  if (validation.error) {
+    const { error: { details: [{ message }] } } = validation;
+    return res.status(400).json({ message });
+  }
+  return next();
+};
+
+module.exports = { postMiddleware, editPostMiddleware };

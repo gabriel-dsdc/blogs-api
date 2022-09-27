@@ -15,26 +15,37 @@ const createPost = async ({ token, title, content, categoryIds }) => {
   return result;
 };
 
+const blogPostIncludesObj = {
+  include: [
+    { as: 'user', model: User, attributes: { exclude: ['password'] } },
+    { as: 'categories', model: Category, through: { attributes: [] } }],
+};
+
 const getPosts = async () => {
-  const postsList = await BlogPost.findAll({
-    include: [
-      { as: 'user', model: User, attributes: { exclude: ['password'] } },
-      { as: 'categories', model: Category, through: { attributes: [] } }],
-  });
+  const postsList = await BlogPost.findAll(blogPostIncludesObj);
   return postsList;
 };
 
 const getPostById = async (id) => {
-  const postFound = await BlogPost.findByPk(id, {
-    include: [
-      { as: 'user', model: User, attributes: { exclude: ['password'] } },
-      { as: 'categories', model: Category, through: { attributes: [] } }],
-  });
+  const postFound = await BlogPost.findByPk(id, blogPostIncludesObj);
   return postFound;
+};
+
+const editPost = async ({ token, id, title, content }) => {
+  const { id: userId } = await verifyToken(token);
+  const [editedPost] = await BlogPost.update({ title, content },
+    { where: { id, userId } });
+  if (editedPost) {
+    return BlogPost.findOne({
+      where: { id, userId },
+      ...blogPostIncludesObj,
+      });
+  }
 };
 
 module.exports = {
   createPost,
   getPosts,
   getPostById,
+  editPost,
 };

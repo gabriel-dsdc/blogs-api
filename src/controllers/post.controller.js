@@ -24,8 +24,21 @@ const getPostById = async (req, res) => {
   res.status(200).json(postFound);
 };
 
+const editPost = async (req, res) => {
+  const token = req.header('Authorization');
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const postFound = await postService.editPost({ token, id, title, content });
+
+  if (!postFound) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+  res.status(200).json(postFound);
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
+  editPost,
 };
